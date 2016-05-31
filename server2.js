@@ -18,7 +18,7 @@ app.get("/*", function(request, response) {
     timeMod(qstr, function(err, newTime) {
        if (err) throw err;
          console.log(newTime);
-         response.json(newTime);
+         response.send(newTime);
     });
 
     response.end();
