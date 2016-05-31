@@ -14,11 +14,11 @@ app.get("/*", function(request, response) {
 
     var qstr = url_parts.split("/")[1];
     qstr = qstr.replace(/%20/g,' ');
-    response.json(qstr);
     
     timeMod(qstr, function(err, newTime) {
        if (err) throw err;
          console.log(newTime);
+         response.json(newTime);
     });
 
     response.end();

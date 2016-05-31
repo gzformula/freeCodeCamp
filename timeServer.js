@@ -14,9 +14,9 @@ console.log("isoDate", isoDate);
 console.log("isDate:", isDate(isoDate));
 
     if (isDate(isoDate)) {
-          jstr = JSON.stringify({ unixtime: isoDate.getTime(), natural: strftime('%B %d, %Y', new Date(isoDate.getTime())) });
+        jstr = JSON.stringify({ unixtime: isoDate.getTime(), natural: strftime('%B %d, %Y', new Date(isoDate.getTime())) });
     } else {
-        callback("Invalid Date",'');
+        jstr = JSON.stringify({ unixtime: null, natural: null });
     }
    callback(null,jstr);
  };
