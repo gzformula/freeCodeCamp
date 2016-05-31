@@ -1,5 +1,5 @@
 var express     = require('express'),
-    mymodule = require('./timeServer.js'),
+    timeMod = require('./timeServer.js'),
     url = require('url'),
     app         = express(),
     port = process.env.PORT || 8080;
@@ -9,18 +9,18 @@ app.listen(port,  function () {
 });
 
 
-   app.get("/*", function(request, response) {
-     var url_parts = url.parse(request.url, true);
+app.get("/*", function(request, response) {
+    var url_parts = url.parse(request.url, true).path;
 
-     response.json(url_parts.path);
-     
-     mymodule(request, function(err, newTime) {
+    var qstr = url_parts.split("/")[1];
+    qstr = qstr.replace(/%20/g,' ');
+    response.json(qstr);
+    
+    timeMod(request, function(err, newTime) {
        if (err) throw err;
-       newTime.forEach(function (file) {
-         console.log(file);
-       })
-     });
+         console.log(newTime);
+    });
 
-     response.end();
-   });
+    response.end();
+});
 
