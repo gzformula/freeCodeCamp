@@ -16,7 +16,7 @@ app.get("/*", function(request, response) {
     qstr = qstr.replace(/%20/g,' ');
     response.json(qstr);
     
-    timeMod(request, function(err, newTime) {
+    timeMod(qstr, function(err, newTime) {
        if (err) throw err;
          console.log(newTime);
     });

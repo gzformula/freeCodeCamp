@@ -4,26 +4,41 @@ var url = require('url');
 var jstr = '';
 
  module.exports = function (date, callback) { 
-      
-      // response.writeHead(200, { 'Content-Type': 'application/json' });
-    var isoDate = new Date(Date.parse(date));
-    console.log("isoDate:", isoDate);
+    if (!isNumeric(date)) {
+      var isoDate = new Date(Date.parse(date));
+    } else {
+      var isoDate = new Date(date*1000);
+    }
+
+console.log("isoDate", isoDate);
+console.log("isDate:", isDate(isoDate));
+
     if (isDate(isoDate)) {
-     jstr = JSON.stringify({ unixtime: isoDate.getTime(), natural: strftime('%B %d, %Y') });
+          jstr = JSON.stringify({ unixtime: isoDate.getTime(), natural: strftime('%B %d, %Y', new Date(isoDate.getTime())) });
+    } else {
+        callback("Invalid Date",'');
     }
    callback(null,jstr);
  };
- 
-function addZero(i) {
-    if (i < 10) {
-        var istr = "0" + i.toString();
-        return istr;
-    } else {
-        return i;
-    }
+
+function isNumeric(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
-function isDate(date) {
-    var date = new Date();
-    return date instanceof Date && !isNaN(date.valueOf());
+function isDate(d) {
+    if ( Object.prototype.toString.call(d) === "[object Date]" ) {
+  // it is a date
+  if ( isNaN( d.getTime() ) ) { 
+    // date is not valid
+    return false;
+  }
+  else {
+    // date is valid
+    return true;
+  }
+}
+else {
+  // not a date
+  return false;
+}
 }
