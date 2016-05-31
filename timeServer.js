@@ -3,20 +3,13 @@ var http = require('http');
 var url = require('url');
 var jstr = '';
 
- module.exports = function (request, callback) { 
-   var newTime = strftime('%Y-%m-%d %H:%M');
+ module.exports = function (date, callback) { 
+      
       // response.writeHead(200, { 'Content-Type': 'application/json' });
-    var isoDate = new Date(Date.parse(url.parse(request.url, true).query[0]));
-    if (url.parse(request.url, true).pathname == "/api/parsetime") {
-     //iso time
-     jstr = JSON.stringify({ 
-         hour: addZero(isoDate.getHours()), 
-         minute: addZero(isoDate.getMinutes()), 
-         second: addZero(isoDate.getSeconds()) 
-     });
-    } else {
-     //unixtime
-     jstr = JSON.stringify({ unixtime: isoDate.getTime()});
+    var isoDate = new Date(Date.parse(date));
+    console.log("isoDate:", isoDate);
+    if (isDate(isoDate)) {
+     jstr = JSON.stringify({ unixtime: isoDate.getTime(), natural: strftime('%B %d, %Y') });
     }
    callback(null,jstr);
  };
@@ -28,4 +21,9 @@ function addZero(i) {
     } else {
         return i;
     }
+}
+
+function isDate(date) {
+    var date = new Date();
+    return date instanceof Date && !isNaN(date.valueOf());
 }
